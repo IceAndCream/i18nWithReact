@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/server/node_modules
 /.pnp
 .pnp.js
 
@@ -10,8 +11,11 @@
 
 # production
 /build
+/server/public
 
 # misc
+/package-lock.json
+/server/package-lock.json
 .DS_Store
 .env.local
 .env.development.local
