@@ -1,13 +1,9 @@
 const express = require('express');
 const fs = require('fs');
-const router = express.Router();
-
 const app = express();
 
 /* GET home page. */
-// router.get('/', function(req, res, next) {
-  app.get('/', (req, res) => {
-  console.log('jin')
+app.get('/', (req, res) => {
   fs.exists('./locales', (exists) => {
     if(exists) {
       fs.readdir('./locales', (errorReadDir, files) => {
@@ -31,10 +27,8 @@ const app = express();
           })
 
           Promise.all(actions).then(() => {
-            console.log('jsonData: ', jsonData)
             res.status(200);
             res.json(jsonData)
-            // res.render('index', { "language": jsonData });
           })
         }
       })
@@ -44,8 +38,5 @@ const app = express();
     }
   })
 });
-// res
-//   res.json( { title: 'Express' });
-// });
 
 module.exports = app;
