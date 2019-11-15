@@ -112,9 +112,8 @@ export default class App extends Component {
           })
         }
 
-        Object.keys(dataS).map(item => dataSource.push(dataS[item]))
-        // 要有个排序
-        _this.setState({ data: dataSource, count: dataSource.length, rawData: data, })
+        Object.keys(dataS).sort().map(item => item !== 'lang' && dataSource.push(dataS[item]))
+        _this.setState({ data: dataSource, count: dataSource.length, rawData: data })
       },
       error:function(err){
         console.log("error", err)
@@ -125,7 +124,7 @@ export default class App extends Component {
   handleAdd = () => {
     const { count, data, rawData } = this.state;
 
-    const num = count+1;
+    const num = `${count+1}`;
     let newData = {};
     newData.name = num;
 
@@ -192,20 +191,23 @@ export default class App extends Component {
   setColumns() {
     const { rawData } = this.state;
     const locales = Object.keys(rawData);
+    const width = `${locales.length / 100}%`;
 
     let columns = [{
       title: 'columns',
       key: 'name',
       dataIndex: 'name',
       editable: true,
+      width,
     }];
 
-    locales.map(locale =>
+    locales.sort().map(locale =>
       columns.push({
         title: locale,
         key: locale,
         dataIndex: locale,
         editable: true,
+        width,
       })
     )
 

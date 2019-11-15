@@ -4,9 +4,10 @@ const app = express();
 
 /* GET home page. */
 app.get('/', (req, res) => {
-  fs.exists('./locales', (exists) => {
+  const path = './src/locales';
+  fs.exists(path, (exists) => {
     if(exists) {
-      fs.readdir('./locales', (errorReadDir, files) => {
+      fs.readdir(path, (errorReadDir, files) => {
         if(errorReadDir) return console.log('errorReadDir: ', errorReadDir);
         else {
           let actions = [];
@@ -16,9 +17,9 @@ app.get('/', (req, res) => {
             const fileName = file.split('.')[0];
             const action = () =>
               new Promise(resolve => 
-                fs.readFile(`./locales/${file}`, 'utf8', (errReadFile, data) => {
+                fs.readFile(`${path}/${file}`, 'utf8', (errReadFile, data) => {
                   if(errReadFile) return res.status(500).send('数据读取失败');
-                  jsonData[fileName] = JSON.parse(data)[fileName];
+                  jsonData[fileName] = JSON.parse(data);
                   resolve();
                 })
               )

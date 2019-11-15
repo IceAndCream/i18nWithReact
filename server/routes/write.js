@@ -4,9 +4,10 @@ const fs = require('fs');
 const app = express();
 
 app.post('/', (req, res) => {
-  fs.exists('./locales', (exists) => {
+  const path = './src/locales';
+  fs.exists(path, (exists) => {
     if(exists) {
-      fs.readdir('./locales', (errorReadDir, files) => {
+      fs.readdir(path, (errorReadDir, files) => {
         if(errorReadDir) return console.log('errorReadDir: ', errorReadDir);
         else {
           const body = req.body;
@@ -14,10 +15,10 @@ app.post('/', (req, res) => {
           const fileFun = (record) => {
             const { locale, name, value, type } = record;
 
-            fs.readFile(`./locales/${locale}.json`, 'utf8', (errReadFile, data) => {
+            fs.readFile(`${path}/${locale}.json`, 'utf8', (errReadFile, data) => {
               if(errReadFile) return res.status(500).send(`${locale}:数据读取失败`);
 
-              const resData = JSON.parse(data)[locale];
+              const resData = JSON.parse(data);
 
               let reqData = resData;
               if(type === 'value') {
@@ -34,7 +35,7 @@ app.post('/', (req, res) => {
               }
 
               //write
-              fs.writeFile(`./locales/${locale}.json`, JSON.stringify({[locale]: reqData}), (errWriteFile) => {
+              fs.writeFile(`${path}/${locale}.json`, JSON.stringify(reqData), (errWriteFile) => {
                 if(errWriteFile) return res.status(500).send(`${locale}:数据写入失败`);
               })
             })
