@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
           let actions = [];
           let jsonData = {};
 
-          files.map(file => {
+          files.filter(item => item.includes('.json')).map(file => {
             const fileName = file.split('.')[0];
             const action = () =>
               new Promise(resolve => 
